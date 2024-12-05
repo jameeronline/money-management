@@ -8,21 +8,23 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 //helps
 import { formatToCurrency, formatToPercentage } from "../utilities/formats";
-import { findSpendingByBudgetId } from "../utilities/budget-palnner";
+import { findSpendingByBudgetId } from "../utilities/budget-planner";
+import { Edit } from "lucide-react";
 
 const BudgetItem = ({ budget }) => {
   const { id, name, amount, category, description } = budget;
   const spending = findSpendingByBudgetId(id);
-  console.log(spending / amount);
+  // console.log(spending / amount);
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex justify-between">
           <span>{name}</span>
-          <span>{formatToCurrency(amount)}</span>
+          <span className="text-teal-500">{formatToCurrency(amount)}</span>
         </CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
@@ -38,7 +40,12 @@ const BudgetItem = ({ budget }) => {
         </div>
       </CardContent>
       <CardFooter>
-        <Badge variant="outline">{category}</Badge>
+        <Badge variant="secondary" className="rounded-full">
+          {category}
+        </Badge>
+        {/* <Button size="icon" variant="outline">
+          <Edit />
+        </Button> */}
       </CardFooter>
     </Card>
   );

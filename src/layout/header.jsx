@@ -17,22 +17,26 @@ import { useEffect, useState } from "react";
 import { auth } from "../config/firebase-config";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { BadgeDollarSign, Trash2 } from "lucide-react";
+import { BadgeDollarSign, Trash2, UserCircle } from "lucide-react";
 import { getValue, delValue } from "../utilities/localStore";
 import { useToast } from "@/hooks/use-toast";
+
+//store
+import { useUserStore } from "../store.js/user-store";
 
 //context
 import { useAuth } from "../context/user-context";
 
 const MenuItems = [
+  // {
+  //   name: "Dashboard",
+  //   slug: "dashboard",
+  //   private: true,
+  // },
   {
-    name: "Dashboard",
-    slug: "dashboard",
+    name: "Budget Dashboard",
+    slug: "budget-dashboard",
     private: true,
-  },
-  {
-    name: "Budget Planner",
-    slug: "budget-planner",
   },
   {
     name: "About",
@@ -59,8 +63,19 @@ const MenuItems = [
 const Header = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
-  const userName = getValue("userName");
   const { toast } = useToast();
+  const userName = getValue("userName");
+
+  //const { user } = useUserStore((state) => state.user);
+  //const { setUserName } = useUserStore((state) => state.setUserName);
+
+  const { user, setUserName, deleteUserName } = useUserStore();
+
+  // useEffect(() => {
+  //   if (userName) {
+  //     setUserName(userName);
+  //   }
+  // }, []);
 
   const handleLogout = async () => {
     try {
@@ -105,7 +120,7 @@ const Header = () => {
             </Link>
             <nav>
               <ul className="flex gap-8 text-black font-semibold">
-                {MenuItems.filter((item) => !item.private || currentUser).map(
+                {MenuItems.filter((item) => !item.private || userName).map(
                   (item, index) => (
                     <li key={index}>
                       <NavLink
@@ -123,7 +138,7 @@ const Header = () => {
                     </li>
                   )
                 )}
-                {currentUser != null && (
+                {/* {currentUser != null && (
                   <li>
                     <Dialog>
                       <DialogTrigger asChild={true}>
@@ -151,11 +166,16 @@ const Header = () => {
                       </DialogContent>
                     </Dialog>
                   </li>
-                )}
+                )} */}
               </ul>
             </nav>
 
             <div className="flex gap-2">
+              {/* {userName && (
+                <span className="w-8 h-8 rounded-full  flex justify-center items-center">
+                  <UserCircle size={32} className="text-teal-700" />
+                </span>
+              )} */}
               {userName && (
                 <>
                   <Dialog>

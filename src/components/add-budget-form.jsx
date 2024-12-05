@@ -19,7 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Form, useFetcher } from "react-router-dom";
 import { Textarea } from "@/components/ui/textarea";
 import { useRef, useEffect } from "react";
-import { CirclePlus } from "lucide-react";
+import { CirclePlus, Loader } from "lucide-react";
 
 const AddBudgetForm = () => {
   const formRef = useRef();
@@ -28,8 +28,10 @@ const AddBudgetForm = () => {
   const isSubmitting = fetcher.state === "submitting";
 
   useEffect(() => {
-    formRef.current.reset();
-    inputRef.current.focus();
+    if (!isSubmitting) {
+      formRef.current.reset();
+      inputRef.current.focus();
+    }
   }, [isSubmitting]);
 
   return (
@@ -101,9 +103,22 @@ const AddBudgetForm = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full h-12" type="submit">
-              <CirclePlus />
-              Add Budget
+            <Button
+              className="w-full h-12"
+              disabled={isSubmitting === true}
+              type="submit"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader className="animate-spin" />
+                  <span>Submitting...</span>
+                </>
+              ) : (
+                <>
+                  <CirclePlus />
+                  <span>Add Budget</span>
+                </>
+              )}
             </Button>
           </CardFooter>
         </Card>

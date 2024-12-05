@@ -9,3 +9,12 @@ export const setValue = (key, value) => {
 export const delValue = (key) => {
   localStorage.removeItem(key);
 };
+
+export const showPromise = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("promise resolved");
+      resolve(`Resolved after 2000ms`);
+    }, 2000);
+  });
+};

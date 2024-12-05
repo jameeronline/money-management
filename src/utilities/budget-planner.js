@@ -1,4 +1,6 @@
-import { setValue, getValue } from "../utilities/localStore";
+import { setValue, getValue } from "./localStore";
+import { showPromise } from "./localStore";
+import { toast } from "sonner";
 
 export const budgetAction = async ({ request }) => {
   console.log("called");
@@ -6,15 +8,14 @@ export const budgetAction = async ({ request }) => {
   const data = await request.formData();
   const actionType = data.get("_action");
 
-  //console.log(actionType);
-  //console.log(data);
-  //console.log(Object.fromEntries(data));
-
   //add user
   if (actionType === "addUser") {
     try {
       const userName = data.get("username");
       setValue("userName", userName);
+      toast.success(`Welcome ${userName}`, {
+        description: `Your has been logged in Successfully`,
+      });
       return { userName };
     } catch (e) {
       throw new Error("Error: There is a problem to create your account");
@@ -30,8 +31,12 @@ export const budgetAction = async ({ request }) => {
         category: data.get("budgetCategory"),
         description: data.get("description"),
       });
-      console.log(budgets);
+      //show asynchronus
+      await showPromise();
       setValue("budgets", JSON.stringify(budgets));
+      toast.success("Budget has been Created", {
+        description: `Your ${data.get("budgetName")} budget has been created Successfully`,
+      });
       return { budgets };
     } catch (e) {
       throw new Error("Error: There is a problem to create your account");
@@ -46,11 +51,34 @@ export const budgetAction = async ({ request }) => {
         amount: data.get("expenseAmount"),
         budgetId: data.get("expenseCategory"),
       });
-      //console.log(expenses);
+      //show asynchronus
+      await showPromise();
       setValue("expenses", JSON.stringify(expenses));
+      toast.success("Expense has been Created", {
+        description: `Your ${data.get("expenseName")} expense has been created Successfully`,
+      });
       return { expenses };
     } catch (e) {
-      throw new Error("Error: There is a problem to create your account");
+      throw new Error("Error: There is a problem to create your expense");
+    }
+  }
+
+  //delete expense
+  if (actionType === "deleteExpense") {
+    try {
+      console.log("delete expense");
+      const expenses = deleteExpense({
+        key: "expenses",
+        id: data.get("expenseId"),
+      });
+
+      setValue("expenses", JSON.stringify(expenses));
+      toast.message("Deleted", {
+        description: `Your expense has been deleted Successfully`,
+      });
+      return { expenses };
+    } catch (e) {
+      throw new Error("Error: There is a problem to delete expense");
     }
   }
 };
@@ -92,6 +120,17 @@ export const createExpense = ({ name, amount, budgetId }) => {
 
     const existingExpenses = JSON.parse(getValue("expenses")) ?? [];
     return [...existingExpenses, newExpense];
+  } catch (e) {
+    throw new Error("Error: Problem to create a expense.");
+  }
+};
+
+export const deleteExpense = ({ key, id }) => {
+  try {
+    const existingExpenses = JSON.parse(getValue(key)) ?? [];
+    const newExpenses = existingExpenses.filter((item) => item.id !== id);
+
+    return newExpenses;
   } catch (e) {
     throw new Error("Error: Problem to create a expense.");
   }

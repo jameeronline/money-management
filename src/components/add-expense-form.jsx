@@ -19,7 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Form, useFetcher } from "react-router-dom";
 import { Textarea } from "@/components/ui/textarea";
 import { useRef, useEffect } from "react";
-import { HandCoins } from "lucide-react";
+import { HandCoins, Loader } from "lucide-react";
 import { clsx } from "clsx";
 
 const AddExpenseForm = ({ budgets }) => {
@@ -31,8 +31,10 @@ const AddExpenseForm = ({ budgets }) => {
   console.log(budgetItems.length === 1);
 
   useEffect(() => {
-    formRef.current.reset();
-    inputRef.current.focus();
+    if (!isSubmitting) {
+      formRef.current.reset();
+      inputRef.current.focus();
+    }
   }, [isSubmitting]);
 
   return (
@@ -112,9 +114,22 @@ const AddExpenseForm = ({ budgets }) => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full h-12" type="submit">
-              <HandCoins />
-              Add Expense
+            <Button
+              className="w-full h-12"
+              disabled={isSubmitting === true}
+              type="submit"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader className="animate-spin" />
+                  <span>Submitting...</span>
+                </>
+              ) : (
+                <>
+                  <HandCoins />
+                  <span>Add Expense</span>
+                </>
+              )}
             </Button>
           </CardFooter>
         </Card>

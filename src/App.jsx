@@ -13,6 +13,7 @@ import { IStaticMethods } from "preline/preline";
 
 //components
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 
 //layout components
 import RootLayout from "./layout/layout";
@@ -27,7 +28,10 @@ import Blog from "./pages/blog";
 import BlogDetails from "./pages/blog-details";
 import Events from "./pages/events";
 import EventDetails from "./pages/event-details";
-import ExpensesPage, { expensesLoader } from "./pages/expnses-details";
+import ExpensesPage, {
+  expensesAction,
+  expensesLoader,
+} from "./pages/expnses-details";
 
 //user pages
 import Protected from "./pages/producted-route";
@@ -36,7 +40,7 @@ import Dashboard from "./pages/protected/user/dashboard";
 import Profile from "./pages/protected/user/profile";
 import Address from "./pages/protected/user/address";
 
-import BudgetPlanner from "./pages/budget-planner";
+import BudgetPlanner from "./pages/budget-dashboard";
 
 //auth
 import Login from "./pages/auth/login";
@@ -60,7 +64,13 @@ import { ThemeProvider } from "@/components/theme-provider";
 
 //Context
 import UserProvider from "./context/user-context";
-import { budgetAction, budgetLoader } from "./utilities/budget-palnner";
+import { budgetAction, budgetLoader } from "./utilities/budget-planner";
+import Terms from "./pages/terms";
+import CMSPage from "./pages/static/cms-page";
+import BudgetDetails, {
+  budgetDetailsAction,
+  budgetDetailsLoader,
+} from "./pages/budget-details";
 
 const router = createBrowserRouter([
   {
@@ -73,15 +83,22 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "budget-planner",
+        path: "budget-dashboard",
         element: <BudgetPlanner />,
         action: budgetAction,
         loader: budgetLoader,
       },
       {
+        path: "budget/:id",
+        element: <BudgetDetails />,
+        loader: budgetDetailsLoader,
+        action: budgetDetailsAction,
+      },
+      {
         path: "expenses-details",
         element: <ExpensesPage />,
         loader: expensesLoader,
+        action: expensesAction,
       },
       {
         element: <Protected />,
@@ -151,6 +168,14 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "terms",
+        element: <Terms />,
+      },
+      {
+        path: "static/:pageName",
+        element: <CMSPage />,
+      },
     ],
   },
   {
@@ -183,6 +208,7 @@ function App() {
         <UserProvider>
           <RouterProvider router={router} />
           <Toaster />
+          <SonnerToaster richColors />
         </UserProvider>
       </ThemeProvider>
     </>

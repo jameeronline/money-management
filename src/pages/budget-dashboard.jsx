@@ -1,14 +1,29 @@
-import { Form, Link, useActionData, useLoaderData } from "react-router-dom";
+import {
+  Form,
+  Link,
+  Navigate,
+  useActionData,
+  useLoaderData,
+  useNavigate,
+} from "react-router-dom";
 import AddBudgetForm from "../components/add-budget-form";
 import AddExpenseForm from "../components/add-expense-form";
 import BudgetItem from "../components/budget-Item";
 import ExpenseTable from "../components/expense-table";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 
 const BudgetPlanner = () => {
   const { userName, budgets, expenses } = useLoaderData();
   const isBudgets = budgets && JSON.parse(budgets).length > 0 ? true : false;
   const isExpenses = expenses && JSON.parse(expenses).length > 0 ? true : false;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userName) {
+      navigate("/", { replace: true });
+    }
+  }, [userName]);
 
   return (
     <>
@@ -54,7 +69,7 @@ const BudgetPlanner = () => {
       {isExpenses && (
         <section className="mt-10">
           <ExpenseTable expenses={expenses} />
-          {JSON.parse(expenses).length > 4 && (
+          {JSON.parse(expenses).length > 0 && (
             <div className="text-center mt-8">
               <Button asChild className="h-10">
                 <Link to="/expenses-details">View all Expenses</Link>

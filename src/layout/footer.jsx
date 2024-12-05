@@ -1,3 +1,6 @@
+import { BadgeDollarSign } from "lucide-react";
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
     <>
@@ -16,6 +19,7 @@ const Footer = () => {
                   className="flex items-center gap-2 mb-6 text-xl font-bold leading-6 whitespace-nowrap text-white focus:outline-none"
                   href=""
                 >
+                  <BadgeDollarSign className="text-white" size={36} />
                   Money Control <span className="text-teal-500">AI</span>
                 </a>
                 <p>
@@ -242,7 +246,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="py-4 text-sm bg-slate-50 text-gray-900">
+        <div className="py-4 text-sm bg-teal-900 text-white">
           <div className="container px-6 mx-auto">
             <div className="grid items-center grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
               <div className="col-span-2 md:col-span-4 lg:col-span-6">
@@ -257,22 +261,22 @@ const Footer = () => {
                 </h3>
                 <ul className="flex flex-wrap items-center justify-end gap-2 lg:gap-4">
                   <li className="leading-6">
-                    <a
-                      href=""
+                    <Link
+                      to="static/terms"
+                      state={{ entryId: "JxMBxxvylws47EZPPfrVU" }}
                       className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
                     >
-                      {" "}
                       T&C{" "}
-                    </a>
+                    </Link>
                   </li>
                   <li className="leading-6">
-                    <a
-                      href=""
+                    <Link
+                      to="static/privacy"
+                      state={{ entryId: "JxMBxxvylws47EZPPfrVU" }}
                       className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
                     >
-                      {" "}
                       Privacy
-                    </a>
+                    </Link>
                   </li>
                   <li className="leading-6">
                     <a

@@ -1,18 +1,11 @@
 import {
   Table,
   TableBody,
-  TableCaption,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import {
-  convertTimestampToReadableDate,
-  formatToCurrency,
-} from "../utilities/formats";
-import { Trash, Trash2 } from "lucide-react";
+import ExpenseTableItem from "./expense-table-item";
 
 export const ExpenseTable = ({ expenses }) => {
   const expensesData = JSON.parse(expenses);
@@ -25,11 +18,14 @@ export const ExpenseTable = ({ expenses }) => {
         </p>
       </div>
       <Table className="border">
-        <TableHeader>
+        <TableHeader className="bg-slate-50 text-base">
           <TableRow>
             {["ID", "Name", "Amount", "Created", "Category", "Action"].map(
               (item, index) => (
-                <TableHead key={index} className="font-semibold text-gray-900">
+                <TableHead
+                  key={index}
+                  className="font-semibold text-gray-900 h-12"
+                >
                   {item}
                 </TableHead>
               )
@@ -38,20 +34,11 @@ export const ExpenseTable = ({ expenses }) => {
         </TableHeader>
         <TableBody>
           {expensesData.map((expense, index) => (
-            <TableRow key={expense.id}>
-              <TableCell className="font-medium">{index + 1}</TableCell>
-              <TableCell>{expense.name}</TableCell>
-              <TableCell>{formatToCurrency(expense.amount)}</TableCell>
-              <TableCell>
-                {convertTimestampToReadableDate(expense.createdAt)}
-              </TableCell>
-              <TableCell></TableCell>
-              <TableCell>
-                <Button variant="destructive">
-                  <Trash2 /> Delete
-                </Button>
-              </TableCell>
-            </TableRow>
+            <ExpenseTableItem
+              key={expense.id}
+              expense={expense}
+              index={index}
+            />
           ))}
         </TableBody>
       </Table>
