@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/table";
 import ExpenseTableItem from "./expense-table-item";
 
-export const ExpenseTable = ({ expenses }) => {
+export const ExpenseTable = ({ expenses, showCategory = true }) => {
   const expensesData = JSON.parse(expenses);
   return (
     <>
@@ -20,16 +20,23 @@ export const ExpenseTable = ({ expenses }) => {
       <Table className="border">
         <TableHeader className="bg-slate-50 text-base">
           <TableRow>
-            {["ID", "Name", "Amount", "Created", "Category", "Action"].map(
-              (item, index) => (
+            {[
+              "ID",
+              "Name",
+              "Amount",
+              "Created",
+              showCategory && "Category",
+              "Action",
+            ]
+              .filter(Boolean)
+              .map((item, index) => (
                 <TableHead
                   key={index}
                   className="font-semibold text-gray-900 h-12"
                 >
                   {item}
                 </TableHead>
-              )
-            )}
+              ))}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -38,6 +45,7 @@ export const ExpenseTable = ({ expenses }) => {
               key={expense.id}
               expense={expense}
               index={index}
+              showCategory={showCategory}
             />
           ))}
         </TableBody>

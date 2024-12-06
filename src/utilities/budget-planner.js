@@ -31,15 +31,41 @@ export const budgetAction = async ({ request }) => {
         category: data.get("budgetCategory"),
         description: data.get("description"),
       });
-      //show asynchronus
+      //show asynchronous
       await showPromise();
       setValue("budgets", JSON.stringify(budgets));
       toast.success("Budget has been Created", {
-        description: `Your ${data.get("budgetName")} budget has been created Successfully`,
+        description: `Your ${data.get("budgetName")} budget has been created successfully`,
       });
       return { budgets };
     } catch (e) {
-      throw new Error("Error: There is a problem to create your account");
+      throw new Error("Error: There is a problem to create your budget");
+    }
+  }
+
+  //delete budget
+  if (actionType === "deleteBudget") {
+    try {
+      const budgets = deleteBudget({
+        key: "budgets",
+        id: data.get("budgetId"),
+      });
+
+      const expenses = deleteExpenses({
+        key: "expenses",
+        id: data.get("budgetId"),
+      });
+
+      //show asynchronous
+      await showPromise();
+      setValue("budgets", JSON.stringify(budgets));
+      setValue("expenses", JSON.stringify(expenses));
+      toast.success("Budget Deleted", {
+        description: `Your budget has been deleted`,
+      });
+      return { budgets, expenses };
+    } catch (e) {
+      throw new Error("Error: There is a problem to delete your budget");
     }
   }
 
@@ -51,7 +77,7 @@ export const budgetAction = async ({ request }) => {
         amount: data.get("expenseAmount"),
         budgetId: data.get("expenseCategory"),
       });
-      //show asynchronus
+      //show asynchronous
       await showPromise();
       setValue("expenses", JSON.stringify(expenses));
       toast.success("Expense has been Created", {
@@ -108,6 +134,17 @@ export const createBudget = ({ name, amount, category, description }) => {
   }
 };
 
+export const deleteBudget = ({ key, id }) => {
+  try {
+    const existingBudgets = JSON.parse(getValue(key)) ?? [];
+    const newBudgets = existingBudgets.filter((item) => item.id !== id);
+    console.log(newBudgets);
+    return newBudgets;
+  } catch (e) {
+    throw new Error("Error: Problem to delete a budget.");
+  }
+};
+
 export const createExpense = ({ name, amount, budgetId }) => {
   try {
     const newExpense = {
@@ -129,6 +166,17 @@ export const deleteExpense = ({ key, id }) => {
   try {
     const existingExpenses = JSON.parse(getValue(key)) ?? [];
     const newExpenses = existingExpenses.filter((item) => item.id !== id);
+
+    return newExpenses;
+  } catch (e) {
+    throw new Error("Error: Problem to create a expense.");
+  }
+};
+
+export const deleteExpenses = ({ key, id }) => {
+  try {
+    const existingExpenses = JSON.parse(getValue(key)) ?? [];
+    const newExpenses = existingExpenses.filter((item) => item.budgetId !== id);
 
     return newExpenses;
   } catch (e) {

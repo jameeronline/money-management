@@ -18,18 +18,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Form, useFetcher } from "react-router-dom";
 import { Textarea } from "@/components/ui/textarea";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { CirclePlus, Loader } from "lucide-react";
 
 const AddBudgetForm = () => {
   const formRef = useRef();
   const inputRef = useRef();
   const fetcher = useFetcher();
+  const [selectValue, setSelectValue] = useState("");
   const isSubmitting = fetcher.state === "submitting";
 
   useEffect(() => {
     if (!isSubmitting) {
       formRef.current.reset();
+      setSelectValue("");
       inputRef.current.focus();
     }
   }, [isSubmitting]);
@@ -75,7 +77,13 @@ const AddBudgetForm = () => {
               </div>
               <div className="grid w-full items-center gap-2">
                 <Label htmlFor="budgetCategory">Category</Label>
-                <Select id="budgetCategory" required name="budgetCategory">
+                <Select
+                  id="budgetCategory"
+                  required
+                  name="budgetCategory"
+                  value={selectValue}
+                  onValueChange={setSelectValue}
+                >
                   <SelectTrigger className="w-full h-10">
                     <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
@@ -104,7 +112,7 @@ const AddBudgetForm = () => {
           </CardContent>
           <CardFooter>
             <Button
-              className="w-full h-12"
+              className="w-full h-12 [&_svg]:size-5"
               disabled={isSubmitting === true}
               type="submit"
             >

@@ -10,7 +10,7 @@ import { Trash2 } from "lucide-react";
 import { getMatchingAllItems } from "../utilities/functions";
 import { Link, Form, useFetcher } from "react-router-dom";
 
-const ExpenseTableItem = ({ expense, index }) => {
+const ExpenseTableItem = ({ expense, index, showCategory }) => {
   const data = getMatchingAllItems({
     category: "budgets",
     key: "id",
@@ -29,20 +29,22 @@ const ExpenseTableItem = ({ expense, index }) => {
         <TableCell>
           {convertTimestampToReadableDate(expense.createdAt)}
         </TableCell>
-        <TableCell>
-          <Link
-            to={`/budget/${data.id}`}
-            className="inline-flex rounded-full h-8 px-3 bg-yellow-500 hover:bg-yellow-600 text-white min-w-20 items-center justify-center"
-          >
-            {data.name}
-          </Link>
-        </TableCell>
+        {showCategory && (
+          <TableCell>
+            <Link
+              to={`/budget/${data.id}`}
+              className="inline-flex rounded-full h-8 px-3 bg-yellow-500 hover:bg-yellow-600 text-white min-w-20 items-center justify-center"
+            >
+              {data.name}
+            </Link>
+          </TableCell>
+        )}
         <TableCell>
           <fetcher.Form method="post">
             <input type="hidden" name="_action" value="deleteExpense" />
             <input type="hidden" name="expenseId" value={expense.id} />
-            <Button variant="destructive" type="submit">
-              <Trash2 /> Delete
+            <Button variant="destructive" size="icon" type="submit">
+              <Trash2 />
             </Button>
           </fetcher.Form>
         </TableCell>

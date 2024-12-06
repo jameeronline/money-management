@@ -36,16 +36,17 @@ const BudgetPlanner = () => {
         )}
       </header>
 
+      {!isBudgets && (
+        <div className="mb-8">
+          <p className="text-sm text-gray-800 max-w-screen-sm">
+            Start by creating your first budget to track and manage your
+            expenses. Adding a budget helps you set financial limits and stay on
+            top of your spending.
+          </p>
+        </div>
+      )}
+
       <section className="grid grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
-        {!isBudgets && (
-          <div className="col-span-12">
-            <p className="text-sm text-gray-800 max-w-screen-sm">
-              Start by creating your first budget to track and manage your
-              expenses. Adding a budget helps you set financial limits and stay
-              on top of your spending.
-            </p>
-          </div>
-        )}
         <div className="col-span-4">
           <AddBudgetForm />
         </div>
@@ -53,17 +54,25 @@ const BudgetPlanner = () => {
           {isBudgets ? (
             <AddExpenseForm budgets={budgets} />
           ) : (
-            <p>No budget Available</p>
+            <div className="flex items-center justify-center bg-teal-50 h-full rounded-xl p-10">
+              <p className="font-bold text-teal-700">No budget Available</p>
+            </div>
           )}
         </div>
-        <div className="col-span-4">
-          <div className="flex flex-col gap-6">
-            {isBudgets &&
-              JSON.parse(budgets).map((budget) => (
-                <BudgetItem key={budget.id} budget={budget} />
+        {isBudgets && (
+          <div className="col-span-4">
+            <div className="flex flex-col gap-6">
+              {JSON.parse(budgets).map((budget) => (
+                <BudgetItem
+                  key={budget.id}
+                  budget={budget}
+                  showDelete={false}
+                  showEdit={false}
+                />
               ))}
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       {isExpenses && (

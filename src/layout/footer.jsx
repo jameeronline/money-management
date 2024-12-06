@@ -6,7 +6,7 @@ const Footer = () => {
     <>
       <footer className="text-white">
         <div className="pt-16 pb-12 text-sm border-t border-slate-200 bg-teal-800">
-          <div className="container px-6 mx-auto">
+          <div className="xl:container px-6 mx-auto">
             <div className="grid grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
               <div
                 className="col-span-4 md:col-span-8 lg:col-span-4"
@@ -22,7 +22,7 @@ const Footer = () => {
                   <BadgeDollarSign className="text-white" size={36} />
                   Money Control <span className="text-teal-500">AI</span>
                 </a>
-                <p>
+                <p className="hidden lg:block">
                   Expertly made, responsive, accessible components in React and
                   HTML ready to be used on your website or app. Just copy and
                   paste them on your Tailwind CSS project.
@@ -247,19 +247,19 @@ const Footer = () => {
           </div>
         </div>
         <div className="py-4 text-sm bg-teal-900 text-white">
-          <div className="container px-6 mx-auto">
+          <div className="xl:container px-6 mx-auto">
             <div className="grid items-center grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
-              <div className="col-span-2 md:col-span-4 lg:col-span-6">
+              <div className="col-span-4 text-center lg:col-span-6 lg:text-start">
                 Copyright 2024 Money Control AI
               </div>
               <nav
-                className="col-span-3 md:col-span-4 lg:col-span-6"
+                className="col-span-4 lg:col-span-6"
                 aria-labelledby="subfooter-links-3-sub"
               >
                 <h3 className="sr-only" id="subfooter-links-3-sub">
                   Get in touch
                 </h3>
-                <ul className="flex flex-wrap items-center justify-end gap-2 lg:gap-4">
+                <ul className="flex flex-wrap items-center justify-center lg:justify-end gap-2 lg:gap-4">
                   <li className="leading-6">
                     <Link
                       to="static/terms"

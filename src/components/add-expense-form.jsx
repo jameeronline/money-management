@@ -115,7 +115,7 @@ const AddExpenseForm = ({ budgets }) => {
           </CardContent>
           <CardFooter>
             <Button
-              className="w-full h-12"
+              className="w-full h-12 [&_svg]:size-5"
               disabled={isSubmitting === true}
               type="submit"
             >

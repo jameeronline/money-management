@@ -1,17 +1,39 @@
-import { Link, useLoaderData, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  redirect,
+  useLoaderData,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import ExpenseTable from "../components/expense-table";
 import { Button } from "@/components/ui/button";
 import { getValue, setValue, showPromise } from "../utilities/localStore";
-import { deleteExpense, createExpense } from "../utilities/budget-planner";
+import {
+  deleteExpense,
+  createExpense,
+  deleteBudget,
+  deleteExpenses,
+} from "../utilities/budget-planner";
 import { toast } from "sonner";
 import { getMatchingAllItems } from "../utilities/functions";
 import BudgetItem from "../components/budget-Item";
 import AddExpenseForm from "../components/add-expense-form";
 import { BudgetChart } from "../components/budget-chart";
 
-export const budgetDetailsLoader = () => {
-  const expenses = getValue("expenses");
-  return { expenses };
+export const budgetDetailsLoader = async ({ params }) => {
+  const budgets = await getMatchingAllItems({
+    category: "budgets",
+    key: "id",
+    value: params.id,
+  });
+
+  const expenses = getMatchingAllItems({
+    category: "expenses",
+    key: "budgetId",
+    value: params.id,
+  });
+
+  return { expenses, budgets };
 };
 
 export const budgetDetailsAction = async ({ request }) => {
@@ -19,6 +41,33 @@ export const budgetDetailsAction = async ({ request }) => {
 
   const data = await request.formData();
   const actionType = data.get("_action");
+
+  //delete budget
+  if (actionType === "deleteBudget") {
+    try {
+      const budgets = deleteBudget({
+        key: "budgets",
+        id: data.get("budgetId"),
+      });
+
+      const expenses = deleteExpenses({
+        key: "expenses",
+        id: data.get("budgetId"),
+      });
+
+      //show asynchronous
+      await showPromise();
+      setValue("budgets", JSON.stringify(budgets));
+      setValue("expenses", JSON.stringify(expenses));
+      redirect("/");
+      toast.success("Budget Deleted", {
+        description: `Your budget has been deleted`,
+      });
+      return { budgets, expenses };
+    } catch (e) {
+      throw new Error("Error: There is a problem to delete your budget");
+    }
+  }
 
   //add expense
   if (actionType === "addExpense") {
@@ -61,37 +110,16 @@ export const budgetDetailsAction = async ({ request }) => {
 };
 
 const BudgetDetails = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
-  const budgets = getMatchingAllItems({
-    category: "budgets",
-    key: "id",
-    value: id,
-  });
-
-  const expenses = getMatchingAllItems({
-    category: "expenses",
-    key: "budgetId",
-    value: id,
-  });
+  const { budgets, expenses } = useLoaderData();
   const isExpenses = expenses && expenses.length > 0 ? true : false;
-
-  //chart data
-  const chartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 305, mobile: 200 },
-    { month: "March", desktop: 237, mobile: 120 },
-    { month: "April", desktop: 73, mobile: 190 },
-    { month: "May", desktop: 209, mobile: 130 },
-    { month: "June", desktop: 214, mobile: 140 },
-  ];
 
   return (
     <section>
       <div className="prose mb-10">
         <h1>
-          <span className="text-teal-500">{budgets[0].name}</span> Budget
-          Details
+          <span className="text-teal-500">{budgets[0]?.name}</span> Budget
+          Overview
         </h1>
       </div>
 
@@ -100,7 +128,12 @@ const BudgetDetails = () => {
           <div className="flex flex-col gap-6">
             {budgets &&
               budgets.map((budget) => (
-                <BudgetItem key={budget.id} budget={budget} />
+                <BudgetItem
+                  key={budget.id}
+                  budget={budget}
+                  showDelete={true}
+                  showEdit={true}
+                />
               ))}
           </div>
         </div>
@@ -115,7 +148,10 @@ const BudgetDetails = () => {
 
       {isExpenses && (
         <section className="mt-10">
-          <ExpenseTable expenses={JSON.stringify(expenses)} />
+          <ExpenseTable
+            expenses={JSON.stringify(expenses)}
+            showCategory={false}
+          />
         </section>
       )}
 

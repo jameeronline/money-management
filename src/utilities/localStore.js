@@ -15,6 +15,6 @@ export const showPromise = () => {
     setTimeout(() => {
       console.log("promise resolved");
       resolve(`Resolved after 2000ms`);
-    }, 2000);
+    }, 1000);
   });
 };
