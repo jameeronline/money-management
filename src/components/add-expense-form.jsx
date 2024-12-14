@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Form, useFetcher } from "react-router-dom";
 import { Textarea } from "@/components/ui/textarea";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { HandCoins, Loader } from "lucide-react";
 import { clsx } from "clsx";
 
@@ -26,12 +26,14 @@ const AddExpenseForm = ({ budgets }) => {
   const formRef = useRef();
   const inputRef = useRef();
   const fetcher = useFetcher();
+  const [selectValue, setSelectValue] = useState("");
   const isSubmitting = fetcher.state === "submitting";
   const budgetItems = JSON.parse(budgets);
-  console.log(budgetItems.length === 1);
+  //console.log(budgetItems.length === 1);
 
   useEffect(() => {
     if (!isSubmitting) {
+      setSelectValue("");
       formRef.current.reset();
       inputRef.current.focus();
     }
@@ -96,7 +98,10 @@ const AddExpenseForm = ({ budgets }) => {
                   id="expenseCategory"
                   required
                   name="expenseCategory"
-                  defaultValue={budgetItems[0].id}
+                  value={
+                    budgetItems.length === 1 ? budgetItems[0].id : selectValue
+                  }
+                  onValueChange={setSelectValue}
                 >
                   <SelectTrigger className="w-full h-10">
                     <SelectValue placeholder="Select Category" />

@@ -34,21 +34,17 @@ const MenuItems = [
   //   private: true,
   // },
   {
-    name: "Budget Dashboard",
+    name: "Dashboard",
     slug: "budget-dashboard",
     private: true,
   },
+  // {
+  //   name: "Enquiry",
+  //   slug: "enquiry",
+  // },
   {
-    name: "About",
-    slug: "about",
-  },
-  {
-    name: "Enquiry",
-    slug: "enquiry",
-  },
-  {
-    name: "Work",
-    slug: "work",
+    name: "Works",
+    slug: "works",
   },
   {
     name: "Blog",
@@ -57,6 +53,10 @@ const MenuItems = [
   {
     name: "Events",
     slug: "events",
+  },
+  {
+    name: "About",
+    slug: "about",
   },
 ];
 
@@ -108,7 +108,7 @@ const Header = () => {
   return (
     <>
       <header className="bg-teal-50">
-        <div className="xl:container mx-auto px-6">
+        <div className="w-full xl:container mx-auto px-6">
           <div className="flex justify-between items-center py-4 relative">
             {/* Logo */}
             <Link
@@ -123,11 +123,12 @@ const Header = () => {
 
             {/* Menu */}
             <nav
-              className={`absolute top-full bg-teal-50 p-4 -left-6 -right-6 lg:w-auto lg:p-0 lg:relative lg:visible ${
-                isToggleOpen
-                  ? "visible opacity-100 backdrop-blur-sm"
-                  : "invisible opacity-0"
-              }}`}
+              className={`absolute top-full bg-gray-50 p-4 -left-6 -right-6 lg:w-auto lg:p-0 lg:bg-transparent
+                 lg:relative lg:visible ${
+                   isToggleOpen
+                     ? "visible opacity-100 backdrop-blur-sm"
+                     : "invisible opacity-0"
+                 }}`}
             >
               <ul className="flex gap-1 text-black font-semibold flex-col lg:flex-row lg:gap-2 xl:gap-8">
                 {MenuItems.filter((item) => !item.private || userName).map(

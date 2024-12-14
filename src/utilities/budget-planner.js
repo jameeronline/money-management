@@ -107,12 +107,35 @@ export const budgetAction = async ({ request }) => {
       throw new Error("Error: There is a problem to delete expense");
     }
   }
+
+  //edit expense
+  if (actionType === "editExpense") {
+    try {
+      console.log("edit expense");
+
+      const expenses = editExpense({
+        key: "expenses",
+        id: data.get("expenseId"),
+        name: data.get("expenseName"),
+        amount: data.get("expenseAmount"),
+      });
+
+      setValue("expenses", JSON.stringify(expenses));
+      toast.message("Updated", {
+        description: `Your expense has been updated Successfully`,
+      });
+      return { expenses };
+    } catch (e) {
+      throw new Error("Error: There is a problem to delete expense");
+    }
+  }
 };
 
 export const budgetLoader = () => {
   const userName = getValue("userName");
   const budgets = getValue("budgets");
   const expenses = getValue("expenses");
+  console.log("loader called");
   return { userName, budgets, expenses };
 };
 
@@ -181,6 +204,20 @@ export const deleteExpenses = ({ key, id }) => {
     return newExpenses;
   } catch (e) {
     throw new Error("Error: Problem to create a expense.");
+  }
+};
+
+export const editExpense = ({ key, id, name, amount }) => {
+  try {
+    const existingExpenses = JSON.parse(getValue(key)) ?? [];
+    const updatedExpenses = existingExpenses.map((item) =>
+      item.id === id ? { ...item, name: name, amount: +amount } : item
+    );
+
+    console.log(updatedExpenses);
+    return updatedExpenses;
+  } catch (e) {
+    throw new Error("Error: Problem to update your expense");
   }
 };
 

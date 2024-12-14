@@ -20,18 +20,18 @@ import RootLayout from "./layout/layout";
 
 //Pages
 import Home from "./pages/home";
-import About, { aboutAction, aboutLoader } from "./pages/about";
+import About from "./pages/about";
 import Works from "./pages/works";
 import Contact from "./pages/contact";
 import BlogLayout from "./pages/blog-layout";
-import Blog from "./pages/blog";
-import BlogDetails from "./pages/blog-details";
+import Blog, { blogLoader } from "./pages/blog";
+import BlogDetails, { postLoader } from "./pages/post";
 import Events from "./pages/events";
-import EventDetails from "./pages/event-details";
+import EventDetails, { eventDetailsLoader } from "./pages/event-details";
 import ExpensesPage, {
   expensesAction,
   expensesLoader,
-} from "./pages/expnses-details";
+} from "./pages/expenses-details";
 
 //user pages
 import Protected from "./pages/producted-route";
@@ -53,8 +53,7 @@ import Enquiry from "./pages/enquiry";
 import AuthLayout from "./layout/auth-layout";
 
 //loaders
-import { loader as eventsLoader } from "./pages/events";
-import { loader as eventDetailsLoder } from "./pages/event-details";
+import { eventsLoader } from "./pages/events";
 
 //actions
 import { logoutAction } from "./pages/logout";
@@ -66,12 +65,15 @@ import { ThemeProvider } from "@/components/theme-provider";
 import UserProvider from "./context/user-context";
 import { budgetAction, budgetLoader } from "./utilities/budget-planner";
 import Terms from "./pages/terms";
-import CMSPage from "./pages/static/cms-page";
+import CMSPage, { contentFulLoader } from "./pages/static/cms-page";
 import BudgetDetails, {
   budgetDetailsAction,
   budgetDetailsLoader,
 } from "./pages/budget-details";
 import { deleteBudgetAction } from "./pages/delete-budget";
+import Post from "./pages/post";
+import Author, { authorLoader } from "./pages/author";
+import ErrorBoundary from "./components/error-boundry";
 
 const router = createBrowserRouter([
   {
@@ -107,6 +109,54 @@ const router = createBrowserRouter([
         loader: expensesLoader,
         action: expensesAction,
       },
+      // {
+      //   path: "about",
+      //   element: <About />,
+      // },
+      // {
+      //   path: "enquiry",
+      //   element: <Enquiry />,
+      //   action: enquireFormAction,
+      // },
+      {
+        path: "works",
+        element: <Works />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+      {
+        path: "logout",
+        action: logoutAction,
+      },
+      {
+        path: "events",
+        element: <Events />,
+        loader: eventsLoader,
+        children: [
+          {
+            path: ":eventId",
+            element: <EventDetails />,
+            loader: eventDetailsLoader,
+          },
+        ],
+      },
+      {
+        path: "blog",
+        element: <Blog />,
+        loader: blogLoader,
+      },
+      {
+        path: "blog/:slug",
+        element: <Post />,
+        loader: postLoader,
+      },
+      {
+        path: "author/:slug",
+        element: <Author />,
+        loader: authorLoader,
+      },
       {
         element: <Protected />,
         children: [
@@ -131,57 +181,13 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "about",
-        element: <About />,
-        action: aboutAction,
-        loader: aboutLoader,
-      },
-      {
-        path: "enquiry",
-        element: <Enquiry />,
-        action: enquireFormAction,
-      },
-      {
-        path: "work",
-        element: <Works />,
-      },
-      {
-        path: "contact",
-        element: <Contact />,
-      },
-      {
-        path: "logout",
-        action: logoutAction,
-      },
-      {
-        path: "events",
-        element: <Events />,
-        loader: eventsLoader,
-        children: [
-          {
-            path: ":eventId",
-            element: <EventDetails />,
-            loader: eventDetailsLoder,
-          },
-        ],
-      },
-      {
-        path: "blog",
-        element: <BlogLayout />,
-        children: [
-          {
-            path: ":blogId",
-            element: <BlogDetails />,
-          },
-        ],
-      },
-      {
-        path: "terms",
-        element: <Terms />,
-      },
-      {
-        path: "static/:pageName",
+        path: ":slug",
         element: <CMSPage />,
+        loader: contentFulLoader,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },
@@ -205,19 +211,17 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  useEffect(() => {
-    window.HSStaticMethods.autoInit();
-  }, []);
-
   return (
     <>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <UserProvider>
-          <RouterProvider router={router} />
-          <Toaster />
-          <SonnerToaster richColors />
-        </UserProvider>
-      </ThemeProvider>
+      <ErrorBoundary>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <UserProvider>
+            <RouterProvider router={router} />
+            <Toaster />
+            <SonnerToaster richColors />
+          </UserProvider>
+        </ThemeProvider>
+      </ErrorBoundary>
     </>
   );
 }

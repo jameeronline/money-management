@@ -7,14 +7,21 @@ import {
 } from "@/components/ui/table";
 import ExpenseTableItem from "./expense-table-item";
 
-export const ExpenseTable = ({ expenses, showCategory = true }) => {
+export const ExpenseTable = ({
+  expenses,
+  showCategory = true,
+  showEdit = false,
+}) => {
   const expensesData = JSON.parse(expenses);
   return (
     <>
       <div className="prose mb-6">
         <h2 className="mb-2">Expenses Table</h2>
-        <p className="text-sm">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, id?
+        <p className="text-sm max-w-4xl">
+          The expense table provides a clear and organized view of all your
+          recorded expenses. It displays detailed information such as date,
+          category, amount, and payment method, allowing users to easily track
+          and analyze their spending habits in one convenient location.
         </p>
       </div>
       <Table className="border">
@@ -26,7 +33,8 @@ export const ExpenseTable = ({ expenses, showCategory = true }) => {
               "Amount",
               "Created",
               showCategory && "Category",
-              "Action",
+              "Delete",
+              showEdit && "Edit",
             ]
               .filter(Boolean)
               .map((item, index) => (
@@ -46,6 +54,7 @@ export const ExpenseTable = ({ expenses, showCategory = true }) => {
               expense={expense}
               index={index}
               showCategory={showCategory}
+              showEdit={showEdit}
             />
           ))}
         </TableBody>

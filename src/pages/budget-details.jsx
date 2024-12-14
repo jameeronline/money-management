@@ -142,7 +142,7 @@ const BudgetDetails = () => {
         </div>
 
         <div className="col-span-4">
-          <BudgetChart data={expenses} />
+          {isExpenses && <BudgetChart data={expenses} />}
         </div>
       </section>
 
@@ -151,6 +151,7 @@ const BudgetDetails = () => {
           <ExpenseTable
             expenses={JSON.stringify(expenses)}
             showCategory={false}
+            showEdit={true}
           />
         </section>
       )}

@@ -41,16 +41,16 @@ const Home = () => {
     <>
       <div className="py-10 lg:py-20">
         <div className="grid grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
-          <div className="col-span-4 lg:col-span-4 prose">
+          <div className="col-span-4 lg:col-span-4 prose lg:prose-xl">
             <p className="uppercase text-teal-600 font-mono">
               Money-Saving Tips
             </p>
-            <h1 className="text-5xl">
+            <h1 className="lg:text-5xl">
               Take Control of Your <br />
               <span className="text-teal-500">Finances Today</span>
             </h1>
 
-            <p className="text-gray-600 font-normal text-xl">
+            <p className="text-gray-600 font-normal lg:text-xl">
               Simplify budgeting, track your expenses, and achieve your
               financial goals—all in one place.{" "}
               <span className="text-teal-600">
@@ -87,7 +87,7 @@ const Home = () => {
           </div>
 
           <div className="col-span-4 lg:col-span-8 lg:justify-self-end">
-            <img src={HeaderImage4} alt="" className="max-w-screen-md" />
+            <img src={HeaderImage4} alt="" className="" />
           </div>
         </div>
       </div>

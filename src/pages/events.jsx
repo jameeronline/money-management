@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useLoaderData, Link, Outlet, useNavigate } from "react-router-dom";
 
-export async function loader() {
+export async function eventsLoader() {
   const list = await getLatest("c");
   return { list };
 }
@@ -26,11 +26,11 @@ const Events = () => {
   const navigate = useNavigate();
   const { list } = useLoaderData();
 
-  useEffect(() => {
-    if (list && list?.meals.length > 0) {
-      navigate(`/events/${list.meals[0]["strCategory"]}`);
-    }
-  }, [list, navigate]);
+  // useEffect(() => {
+  //   if (list && list?.meals.length > 0) {
+  //     navigate(`/events/${list.meals[0]["strCategory"]}`);
+  //   }
+  // }, []);
 
   return (
     <div className="grid gap-2 grid-cols-4 md:grid-cols-8 lg:grid-cols-12">

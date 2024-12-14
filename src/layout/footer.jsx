@@ -1,15 +1,139 @@
-import { BadgeDollarSign } from "lucide-react";
+import clsx from "clsx";
+import {
+  BadgeDollarSign,
+  Facebook,
+  FacebookIcon,
+  Twitter,
+  TwitterIcon,
+  Youtube,
+} from "lucide-react";
 import { Link } from "react-router-dom";
+
+// const subFooterLinks = [
+//   {
+//     id: crypto.randomUUID(),
+//     name: "Cookies",
+//     slug: "cookies",
+//   },
+// ];
+
+const productLinks = [
+  {
+    id: crypto.randomUUID(),
+    name: "Features",
+    slug: "features",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Customers",
+    slug: "customers",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Pricing",
+    slug: "pricing",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Terms",
+    slug: "terms-and-conditions",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Privacy",
+    slug: "privacy-policy",
+  },
+];
+
+const aboutUsLinks = [
+  {
+    id: crypto.randomUUID(),
+    name: "Careers",
+    slug: "careers",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Leadership",
+    slug: "leadership",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "News",
+    slug: "news",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Events",
+    slug: "events",
+  },
+];
+
+const getInTouchLinks = [
+  {
+    id: crypto.randomUUID(),
+    name: "Contact",
+    slug: "contact",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Support",
+    slug: "support",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Partners",
+    slug: "partners",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "Join Search",
+    slug: "join-search",
+  },
+];
+
+const socialLinks = [
+  {
+    id: crypto.randomUUID(),
+    name: "facebook",
+    icon: <Facebook />,
+    link: "http://facebook.com/moneycontrolai",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "twitter",
+    icon: <Twitter />,
+    link: "http://x.com/moneycontrolai",
+  },
+  {
+    id: crypto.randomUUID(),
+    name: "youtube",
+    icon: <Youtube />,
+    link: "http://youtube.com/moneycontrolai",
+  },
+];
+
+const LinkGroups = ({ links, vertical = true }) => {
+  return links.map((link) => (
+    <li className={clsx(vertical ? "mb-2" : "", "leading-6")} key={link.id}>
+      <Link
+        to={link.slug}
+        className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
+      >
+        {link.name}
+      </Link>
+    </li>
+  ));
+};
 
 const Footer = () => {
   return (
     <>
       <footer className="text-white">
         <div className="pt-16 pb-12 text-sm border-t border-slate-200 bg-teal-800">
-          <div className="xl:container px-6 mx-auto">
+          <div className="w-full xl:container px-6 mx-auto">
             <div className="grid grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
               <div
-                className="col-span-4 md:col-span-8 lg:col-span-4"
+                className="col-span-4 md:col-span-8 lg:col-span-6"
                 aria-labelledby="footer-header"
               >
                 <a
@@ -22,7 +146,7 @@ const Footer = () => {
                   <BadgeDollarSign className="text-white" size={36} />
                   Money Control <span className="text-teal-500">AI</span>
                 </a>
-                <p className="hidden lg:block">
+                <p className="hidden lg:block lg:max-w-sm">
                   Expertly made, responsive, accessible components in React and
                   HTML ready to be used on your website or app. Just copy and
                   paste them on your Tailwind CSS project.
@@ -40,44 +164,10 @@ const Footer = () => {
                   Product
                 </h3>
                 <ul>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Features{" "}
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Customers{" "}
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Why us?{" "}
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Pricing{" "}
-                    </a>
-                  </li>
+                  <LinkGroups links={productLinks} />
                 </ul>
               </nav>
+
               <nav
                 className="col-span-2 md:col-span-4 lg:col-span-2"
                 aria-labelledby="footer-docs-5-logo"
@@ -86,114 +176,13 @@ const Footer = () => {
                   className="mb-6 text-base font-medium text-teal-100"
                   id="footer-docs-5-logo"
                 >
-                  Docs & Help
+                  About
                 </h3>
                 <ul>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Documentation
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Training{" "}
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      System status{" "}
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      FAQ's{" "}
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Help Center{" "}
-                    </a>
-                  </li>
+                  <LinkGroups links={aboutUsLinks} />
                 </ul>
               </nav>
-              <nav
-                className="col-span-2 md:col-span-4 lg:col-span-2"
-                aria-labelledby="footer-about-5-logo"
-              >
-                <h3
-                  className="mb-6 text-base font-medium text-teal-100"
-                  id="footer-about-5-logo"
-                >
-                  About us
-                </h3>
-                <ul>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      About us{" "}
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Careers{" "}
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Leadership{" "}
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Blog
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Events{" "}
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+
               <nav
                 className="col-span-2 md:col-span-4 lg:col-span-2"
                 aria-labelledby="footer-get-in-touch-5-logo"
@@ -205,49 +194,14 @@ const Footer = () => {
                   Get in touch
                 </h3>
                 <ul>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Contact{" "}
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Support{" "}
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Partners{" "}
-                    </a>
-                  </li>
-                  <li className="mb-2 leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Join research{" "}
-                    </a>
-                  </li>
+                  <LinkGroups links={getInTouchLinks} />
                 </ul>
               </nav>
             </div>
           </div>
         </div>
         <div className="py-4 text-sm bg-teal-900 text-white">
-          <div className="xl:container px-6 mx-auto">
+          <div className="w-full xl:container px-6 mx-auto">
             <div className="grid items-center grid-cols-4 gap-6 md:grid-cols-8 lg:grid-cols-12">
               <div className="col-span-4 text-center lg:col-span-6 lg:text-start">
                 Copyright 2024 Money Control AI
@@ -259,34 +213,18 @@ const Footer = () => {
                 <h3 className="sr-only" id="subfooter-links-3-sub">
                   Get in touch
                 </h3>
-                <ul className="flex flex-wrap items-center justify-center lg:justify-end gap-2 lg:gap-4">
-                  <li className="leading-6">
-                    <Link
-                      to="static/terms"
-                      state={{ entryId: "JxMBxxvylws47EZPPfrVU" }}
+                <ul className="flex flex-wrap items-center justify-center lg:justify-end gap-2 lg:gap-6">
+                  {/* <LinkGroups links={subFooterLinks} vertical={false} /> */}
+                  {socialLinks.map((item) => (
+                    <li
+                      key={item.id}
                       className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
                     >
-                      T&C{" "}
-                    </Link>
-                  </li>
-                  <li className="leading-6">
-                    <Link
-                      to="static/privacy"
-                      state={{ entryId: "JxMBxxvylws47EZPPfrVU" }}
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      Privacy
-                    </Link>
-                  </li>
-                  <li className="leading-6">
-                    <a
-                      href=""
-                      className="transition-colors duration-300 hover:text-teal-500 focus:text-teal-600"
-                    >
-                      {" "}
-                      Cookies{" "}
-                    </a>
-                  </li>
+                      <a href={item.link} target="_blank">
+                        {item.icon}
+                      </a>
+                    </li>
+                  ))}
                 </ul>
               </nav>
             </div>

@@ -2,7 +2,7 @@ import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import ExpenseTable from "../components/expense-table";
 import { Button } from "@/components/ui/button";
 import { getValue, setValue } from "../utilities/localStore";
-import { deleteExpense } from "../utilities/budget-planner";
+import { deleteExpense, editExpense } from "../utilities/budget-planner";
 import { toast } from "sonner";
 
 export const expensesLoader = () => {
@@ -34,6 +34,29 @@ export const expensesAction = async ({ request }) => {
       throw new Error("Error: There is a problem to delete expense");
     }
   }
+
+  //edit expense
+  if (actionType === "editExpense") {
+    try {
+      console.log("edit expense");
+      console.log("form action");
+
+      const expenses = editExpense({
+        key: "expenses",
+        id: data.get("expenseId"),
+        name: data.get("expenseName"),
+        amount: data.get("expenseAmount"),
+      });
+
+      setValue("expenses", JSON.stringify(expenses));
+      toast.message("Updated", {
+        description: `Your expense has been updated Successfully`,
+      });
+      return { expenses };
+    } catch (e) {
+      throw new Error("Error: There is a problem to delete expense");
+    }
+  }
 };
 
 const ExpensesPage = () => {
@@ -48,7 +71,7 @@ const ExpensesPage = () => {
           <h1>All Expenses</h1>
         </div>
         {JSON.parse(expenses).length > 0 ? (
-          <ExpenseTable expenses={expenses} />
+          <ExpenseTable expenses={expenses} showEdit={true} />
         ) : (
           <span>No Expense Items</span>
         )}

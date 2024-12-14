@@ -54,12 +54,12 @@ const BudgetPlanner = () => {
           {isBudgets ? (
             <AddExpenseForm budgets={budgets} />
           ) : (
-            <div className="flex items-center justify-center bg-teal-50 h-full rounded-xl p-10">
-              <p className="font-bold text-teal-700">No budget Available</p>
+            <div className="flex items-center justify-center bg-gray-50 h-full rounded-xl p-10">
+              <p className="font-bold text-gray-700">No Expenses Available</p>
             </div>
           )}
         </div>
-        {isBudgets && (
+        {isBudgets ? (
           <div className="col-span-4">
             <div className="flex flex-col gap-6">
               {JSON.parse(budgets).map((budget) => (
@@ -72,12 +72,18 @@ const BudgetPlanner = () => {
               ))}
             </div>
           </div>
+        ) : (
+          <div className="col-span-4">
+            <div className="flex items-center justify-center bg-gray-50 h-full rounded-xl p-10">
+              <p className="font-bold text-gray-700">No budget Available</p>
+            </div>
+          </div>
         )}
       </section>
 
       {isExpenses && (
         <section className="mt-10">
-          <ExpenseTable expenses={expenses} />
+          <ExpenseTable expenses={expenses} showEdit={true} />
           {JSON.parse(expenses).length > 0 && (
             <div className="text-center mt-8">
               <Button asChild className="h-10">

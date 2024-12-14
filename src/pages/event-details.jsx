@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link, useLoaderData } from "react-router-dom";
 
 import { getCategoryMeals } from "../data/api";
 
-export async function loader({ params }) {
+export async function eventDetailsLoader({ params }) {
   const paramData = params.eventId;
   const mealDetail = await getCategoryMeals(paramData);
   return { mealDetail };

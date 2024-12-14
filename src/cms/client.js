@@ -2,8 +2,8 @@
 import { createClient } from "contentful";
 
 const client = createClient({
-  space: "0d44yafkqnik",
-  accessToken: "WrV3p4MV6bygtIBQgkE2ug5y-e1hqnOzMcZDqPXO5Ik",
+  space: import.meta.env.VITE_spaceID,
+  accessToken: import.meta.env.VITE_accessToken,
 });
 
 export default client;

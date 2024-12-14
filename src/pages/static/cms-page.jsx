@@ -1,32 +1,49 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Fragment } from "react";
+import { useLoaderData } from "react-router-dom";
+import client from "../../cms/client";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import NotFound from "../not-found";
+
+export async function contentFulLoader({ params }) {
+  const slug = params.slug;
+  try {
+    const collections = await client.getEntries({
+      content_type: "staticPages",
+      "fields.slug": slug,
+    });
+    const content = collections?.items;
+    console.log(content);
+    return { content };
+  } catch (e) {
+    throw new Error("Error: Unable to fetch the Content");
+  }
+}
 
 const CMSPage = () => {
-  const { state } = useLocation();
+  const { content } = useLoaderData();
 
-  const BASE_URL = "https://cdn.contentful.com";
-  const SPACE_ID = "0d44yafkqnik";
-  const ACCESS_TOKEN = "WrV3p4MV6bygtIBQgkE2ug5y-e1hqnOzMcZDqPXO5Ik";
-  const ENVI_ID = "master";
-  const ENTRY_ID = state.entryId;
+  if (!content || !Array.isArray(content) || content.length === 0) {
+    return <NotFound message="No content available at the moment." />;
+  }
 
-  useEffect(() => {
-    const fetchContentFul = async () => {
-      try {
-        //const entry = await client.getEntry(ENTRY_ID);
-        const entryData = await fetch(
-          `${BASE_URL}/spaces/${SPACE_ID}/environments/${ENVI_ID}/entries/${ENTRY_ID}?access_token=${ACCESS_TOKEN}`
-        );
-        const entryResponseData = await entryData.json();
-        console.log(entryResponseData);
-      } catch (e) {
-        console.log(e.message);
-      }
-    };
-
-    fetchContentFul();
-  }, []);
-  return <div>CMSPage</div>;
+  return (
+    <article className="prose lg:max-w-screen-lg">
+      {content.map((item) => (
+        <Fragment key={item.sys.id}>
+          <h1>{item.fields.title}</h1>
+          {item.fields.featureImage?.fields?.file?.url && (
+            <LazyLoadImage
+              alt={item.fields.title}
+              src={item.fields.featureImage.fields?.file?.url} // use normal <img> attributes as props
+              className="m-0 object-cover w-full h-80 rounded-3xl grayscale"
+            />
+          )}
+          {documentToReactComponents(item.fields.body)}
+        </Fragment>
+      ))}
+    </article>
+  );
 };
 
 export default CMSPage;
