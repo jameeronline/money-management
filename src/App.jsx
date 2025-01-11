@@ -65,7 +65,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import UserProvider from "./context/user-context";
 import { budgetAction, budgetLoader } from "./utilities/budget-planner";
 import Terms from "./pages/terms";
-import CMSPage, { contentFulLoader } from "./pages/static/cms-page";
+import CMSPage, { loader as contentFulLoader } from "./pages/static/cms-page";
 import BudgetDetails, {
   budgetDetailsAction,
   budgetDetailsLoader,

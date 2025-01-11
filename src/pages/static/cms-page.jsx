@@ -5,7 +5,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import NotFound from "../not-found";
 
-export async function contentFulLoader({ params }) {
+export async function loader({ params }) {
   const slug = params.slug;
   try {
     const collections = await client.getEntries({
